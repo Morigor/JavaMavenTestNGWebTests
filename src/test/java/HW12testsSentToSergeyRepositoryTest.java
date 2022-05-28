@@ -15,6 +15,16 @@ public class HW12testsSentToSergeyRepositoryTest {
     private final String driverPath
             = "C:\\Drivers\\selenium, driver for Chrome\\chromedriver.exe";
 
+//    *************  TC_12_01  **********************************************
+//    Подтвердите, что в меню BROWSE LANGUAGES, подменю  J, пользователь может
+//    найти описание страницы, на которой перечеслены все программные языки,
+//    начинающиеся с буквы J,  отсортированные по названию
+//
+//    Шаги:
+//    Открыть базовую страницу
+//    Нажать на пункт меню BROWSE LANGUAGES
+//    Нажать на подменю J
+//    Подтвердить, что пользователь видит текст “All languages starting with the letter J are shown, sorted by Language.”
     @Test
     public void testAreLanguagesSortedByLetter() {
         String expectedResult
@@ -40,6 +50,14 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    ********************  TC_12_02  ****************************************
+//    Подтвердите, что в меню BROWSE LANGUAGES, подменю  M, последний программный язык в таблице -  MySQL
+//
+//    Шаги:
+//    Открыть базовую страницу
+//    Нажать на пункт меню BROWSE LANGUAGES
+//    Нажать на подменю M
+//    Подтвердить, что последний язык программирования на странице - MySQL
     @Test
     public void testConfirmIfLanguageCorrect() {
         String expectedResult = "MySQL";
@@ -66,6 +84,9 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    ********************  TC_12_03  ***************************************
+//    Подтвердите, что в меню BROWSE LANGUAGES существует таблица с заголовками
+//    Language, Author, Date, Comments, Rate
     @Test
     public void testConfirmIfTableHeadExist() {
         String expectedResult = "Language, Author, Date, Comments, Rate,";
@@ -90,6 +111,9 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    ***********************  TC_12_04  **********************************
+//    Подтвердите, что создатель решения на языке Mathematica - Brenton Bostick,
+//    дата обновления решения на этом языке - 03/16/06, и что это решение имеет 1 комментарий
     @Test
     public void testMathematicaLanguageData() {
         System.setProperty(chromeDriver, driverPath);
@@ -123,6 +147,8 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    *******************  TC_12_05  *************************************
+//    Подтвердите, что на сайте существует 10 языков, названия которых начинаются с цифр.
     @Test
     public void testLanguagesWithFigureFirst() {
         System.setProperty(chromeDriver, driverPath);
@@ -151,6 +177,11 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    ****************************  TC_12_06  **************************
+//    Подтвердите, что если на странице Sign Guestbook http://www.99-bottles-of-beer.net/signv2.html
+//    вы заполните все поля формы, но введете случайно сгенерированное трехзначное
+//    число в поле  Security Code: , то вы получите сообщение об ошибке
+//    Error: Error: Invalid security code.
     @Test
     public void testOfErrorOnSignGuestbookPage() {
         String expectedResult = "Error: Error: Invalid security code.";
@@ -183,6 +214,12 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    *****************************  TC_12_07  ************************
+//    Выберите любой язык программирования (из меню BROWSE LANGUAGES) и любую
+//    версию решения (из раздела Alternative Versions, если такой раздел существует
+//    для выбранного языка).
+//    Подтвердите, что пользователь может сделать закладку на это решение на
+//    сайте Reddit (нажав на иконку сайта Reddit, пользователь перейдет на Логин страницу сайта Reddit)
     @Test
     public void testIfIconRedditWorks() {
         String expectedResult
@@ -214,6 +251,12 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    *************************  TC_12_08  ******************************
+//    Подтвердите, что решение на языке Shakespeare входит в топ 20 всех решений,
+//    в топ 10 решений на Esoteric Languages и в топ 6 решений-хитов. Но решение
+//    на языке Shakespeare не входит в список топовых решений на реальных языках программирования.
+//   (Можно написать одним тестом, но так, чтобы все Asserts были в конце теста.
+//   Или можно написать отдельные тесты на каждый requirenment.)
     @Test
     public void testConfirmIfShakespeareInTop() {
         String language = "Shakespeare";
@@ -290,6 +333,8 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    *********************  TC_12_09  **********************************
+//    Подтвердите, что существует 6 версий решений на языке программирования Java.
     @Test
     public void testIfSixVersionsOfJavaExist() {
         int numOfJavaVersions = 6;
@@ -327,6 +372,9 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
+//    *************************  TC_12_10  *********************************
+//    Подтвердите, что самое большое количество комментариев для решений на языке
+//    Java имеет версия “object-oriented version”
     @Test
     public void testIfVersionHasMaxComments() {
         int javaOOVersionComments = 33;
