@@ -5,17 +5,23 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Integer.parseInt;
 
 public class HW12testsSentToSergeyRepositoryTest {
 
-    private final String baseURL = "http://www.99-bottles-of-beer.net/";
-    private final String browseLangURL = "https://www.99-bottles-of-beer.net/abc.html";
-    private final String chromeDriver = "webdriver.chrome.driver";
-    private final String driverPath
+    private final String BASE_URL = "http://www.99-bottles-of-beer.net/";
+    private final String BROWSE_LangURL = "https://www.99-bottles-of-beer.net/abc.html";
+    private final String CHROME_DRIVER = "webdriver.chrome.driver";
+    private final String DRIVER_PATH
             = "C:\\Drivers\\selenium, driver for Chrome\\chromedriver.exe";
+    private final By BROWSE_LANGUAGE = By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']");
+    private final By LANGUAGE_M = By.linkText("M");
+    private final By LANGUAGE_J = By.xpath("//ul[@id='submenu']/li/a[@href='j.html']");
 
-//    *************  TC_12_01  **********************************************
+    //    *************  TC_12_01  **********************************************
 //    Подтвердите, что в меню BROWSE LANGUAGES, подменю  J, пользователь может
 //    найти описание страницы, на которой перечеслены все программные языки,
 //    начинающиеся с буквы J,  отсортированные по названию
@@ -30,17 +36,13 @@ public class HW12testsSentToSergeyRepositoryTest {
         String expectedResult
                 = "All languages starting with the letter J are shown, sorted by Language.";
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(baseURL);
+        driver.get(BASE_URL);
 
-        driver.findElement(
-                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
-        ).click();
-        driver.findElement(
-                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")
-        ).click();
+        driver.findElement(BROWSE_LANGUAGE).click();
+        driver.findElement(LANGUAGE_J).click();
 
         String actualResult = driver
                 .findElement(By.xpath("//div[@id='main']/p[text()]")).getText();
@@ -50,7 +52,7 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    ********************  TC_12_02  ****************************************
+    //    ********************  TC_12_02  ****************************************
 //    Подтвердите, что в меню BROWSE LANGUAGES, подменю  M, последний программный язык в таблице -  MySQL
 //
 //    Шаги:
@@ -62,16 +64,12 @@ public class HW12testsSentToSergeyRepositoryTest {
     public void testConfirmIfLanguageCorrect() {
         String expectedResult = "MySQL";
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(baseURL);
-        driver.findElement(
-                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
-        ).click();
-        driver.findElement(
-                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")
-        ).click();
+        driver.get(BASE_URL);
+        driver.findElement(BROWSE_LANGUAGE).click();
+        driver.findElement(LANGUAGE_M).click();
 
         String actualResult = driver
                 .findElement(
@@ -84,17 +82,17 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    ********************  TC_12_03  ***************************************
+    //    ********************  TC_12_03  ***************************************
 //    Подтвердите, что в меню BROWSE LANGUAGES существует таблица с заголовками
 //    Language, Author, Date, Comments, Rate
     @Test
     public void testConfirmIfTableHeadExist() {
         String expectedResult = "Language, Author, Date, Comments, Rate,";
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(browseLangURL);
+        driver.get(BROWSE_LangURL);
 
         String[] tableArr = new String[5];
         String actualresult = "";
@@ -111,17 +109,16 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    ***********************  TC_12_04  **********************************
+    //    ***********************  TC_12_04  **********************************
 //    Подтвердите, что создатель решения на языке Mathematica - Brenton Bostick,
 //    дата обновления решения на этом языке - 03/16/06, и что это решение имеет 1 комментарий
     @Test
     public void testMathematicaLanguageData() {
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(browseLangURL);
-        driver.findElement(
-                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+        driver.get(BROWSE_LangURL);
+        driver.findElement(LANGUAGE_M).click();
         driver
                 .findElement(
                         By.xpath("//tbody/tr/td/a[@href='language-mathematica-1090.html']"))
@@ -147,14 +144,54 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    *******************  TC_12_05  *************************************
+    @Test
+    public void testMathematicaLanguageData2() {
+        String languageExpect = "Mathematica";
+        String authorExpect = "Brenton Bostick";
+        String dateExpect = "03/16/06";
+        String commentsExpect = "1";
+
+        StringBuilder expectedResult = new StringBuilder();
+        expectedResult
+                .append(languageExpect)
+                .append(" ")
+                .append(authorExpect)
+                .append(" ")
+                .append(dateExpect)
+                .append(" ")
+                .append(commentsExpect);
+
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
+        WebDriver driver = new ChromeDriver();
+
+        driver.get(BROWSE_LangURL);
+        driver.findElement(LANGUAGE_M).click();
+
+        List<WebElement> trList = driver.findElements(By.xpath("//tbody/tr"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        for (WebElement tr : trList) {
+            if (tr.getText().contains(languageExpect)) {
+                actualResult.add(tr.getText());
+            }
+        }
+
+        Assert.assertEquals(actualResult.size(), 1);
+        Assert.assertFalse(actualResult.get(0).isEmpty());
+        Assert.assertEquals(actualResult.get(0), expectedResult.toString());
+
+        driver.quit();
+    }
+
+    //    *******************  TC_12_05  *************************************
 //    Подтвердите, что на сайте существует 10 языков, названия которых начинаются с цифр.
     @Test
     public void testLanguagesWithFigureFirst() {
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(browseLangURL);
+        driver.get(BROWSE_LangURL);
         driver.findElement(
                         By.xpath("//ul[@id='submenu']/li/a[@href='0.html']"))
                 .click();
@@ -177,7 +214,7 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    ****************************  TC_12_06  **************************
+    //    ****************************  TC_12_06  **************************
 //    Подтвердите, что если на странице Sign Guestbook http://www.99-bottles-of-beer.net/signv2.html
 //    вы заполните все поля формы, но введете случайно сгенерированное трехзначное
 //    число в поле  Security Code: , то вы получите сообщение об ошибке
@@ -186,7 +223,7 @@ public class HW12testsSentToSergeyRepositoryTest {
     public void testOfErrorOnSignGuestbookPage() {
         String expectedResult = "Error: Error: Invalid security code.";
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.99-bottles-of-beer.net/guestbookv2.html");
@@ -214,7 +251,7 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    *****************************  TC_12_07  ************************
+    //    *****************************  TC_12_07  ************************
 //    Выберите любой язык программирования (из меню BROWSE LANGUAGES) и любую
 //    версию решения (из раздела Alternative Versions, если такой раздел существует
 //    для выбранного языка).
@@ -228,13 +265,12 @@ public class HW12testsSentToSergeyRepositoryTest {
                 "www.99-bottles-of-beer.net%252Flanguage-java-4" +
                 ".html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Java";
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(browseLangURL);
+        driver.get(BROWSE_LangURL);
 
-        driver.findElement(
-                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        driver.findElement(LANGUAGE_J).click();
         driver.findElement(
                         By.xpath("//tbody/tr/td/a[@href='language-java-3.html']"))
                 .click();
@@ -251,7 +287,7 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    *************************  TC_12_08  ******************************
+    //    *************************  TC_12_08  ******************************
 //    Подтвердите, что решение на языке Shakespeare входит в топ 20 всех решений,
 //    в топ 10 решений на Esoteric Languages и в топ 6 решений-хитов. Но решение
 //    на языке Shakespeare не входит в список топовых решений на реальных языках программирования.
@@ -262,10 +298,10 @@ public class HW12testsSentToSergeyRepositoryTest {
         String language = "Shakespeare";
         boolean expectedResult = true;
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
-        driver.get(baseURL);
+        driver.get(BASE_URL);
 
         driver.findElement(
                         By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']"))
@@ -333,14 +369,14 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    *********************  TC_12_09  **********************************
+    //    *********************  TC_12_09  **********************************
 //    Подтвердите, что существует 6 версий решений на языке программирования Java.
     @Test
     public void testIfSixVersionsOfJavaExist() {
         int numOfJavaVersions = 6;
         int actualResult = 0;
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.99-bottles-of-beer.net/j.html");
@@ -372,14 +408,14 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.quit();
     }
 
-//    *************************  TC_12_10  *********************************
+    //    *************************  TC_12_10  *********************************
 //    Подтвердите, что самое большое количество комментариев для решений на языке
 //    Java имеет версия “object-oriented version”
     @Test
     public void testIfVersionHasMaxComments() {
         int javaOOVersionComments = 33;
 
-        System.setProperty(chromeDriver, driverPath);
+        System.setProperty(CHROME_DRIVER, DRIVER_PATH);
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://www.99-bottles-of-beer.net/language-java-3.html");
