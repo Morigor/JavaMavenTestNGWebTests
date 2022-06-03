@@ -145,9 +145,9 @@ public class HW12testsSentToSergeyRepositoryTest {
     }
 
     @Test
-    public void testMathematicaLanguageData2() {
+    public void testDataOfLanguageMathematica() {
         String languageExpect = "Mathematica";
-        String authorExpect = "Brenton Bostick";
+        String authorNameExpect = "Brenton Bostick";
         String dateExpect = "03/16/06";
         String commentsExpect = "1";
 
@@ -155,7 +155,7 @@ public class HW12testsSentToSergeyRepositoryTest {
         expectedResult
                 .append(languageExpect)
                 .append(" ")
-                .append(authorExpect)
+                .append(authorNameExpect)
                 .append(" ")
                 .append(dateExpect)
                 .append(" ")
@@ -167,12 +167,12 @@ public class HW12testsSentToSergeyRepositoryTest {
         driver.get(BROWSE_LangURL);
         driver.findElement(LANGUAGE_M).click();
 
-        List<WebElement> trList = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> rows = driver.findElements(By.xpath("//tbody/tr"));
 
         List<String> actualResult = new ArrayList<>();
 
-        for (WebElement tr : trList) {
-            if (tr.getText().contains(languageExpect)) {
+        for(WebElement tr : rows) {
+            if(tr.getText().contains(languageExpect)) {
                 actualResult.add(tr.getText());
             }
         }
